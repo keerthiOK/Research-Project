@@ -1,0 +1,286 @@
+insert into pacp_schema.inspections (InspectionID, Surveyed_By,Certificate_Number,Owner, Customer, Drainage_Area, PO_Number, 
+Pipe_Segment_Reference, Date, Time, Street, City, Location_Details, Upstream_MH, Up_Rim_to_Invert, 
+Up_Grade_to_Invert, Up_Rim_to_Grade, Downstream_MH, Down_Rim_to_Invert, Down_Grade_to_Invert, Down_Rim_to_Grade, 
+Sewer_Use, Direction, Height, Flow_Control, Width, Shape, Material, Lining_Method, Pipe_Joint_Length, Total_Length, 
+Length_Surveyed, Year_Laid, Year_Renewed, Media_Label, Purpose, Sewer_Category,Pre_Cleaning, Date_Cleaned, Weather, 
+Location_Code, Additional_Info, Reverse_Setup, Sheet_Number, IsImperial, PressureValue, WorkOrder, Project, Northing, 
+Easting, Elevation, Coordinate_System, GPS_Accuracy)
+
+Select InspectionID, Surveyed_By, Certificate_Number, Owner, Customer, Drainage_Area, PO_Number, 
+Pipe_Segment_Reference, Date, Time, Street, City, Location_Details, Upstream_MH, Up_Rim_to_Invert, 
+Up_Grade_to_Invert, Up_Rim_to_Grade, Downstream_MH, Down_Rim_to_Invert, Down_Grade_to_Invert, Down_Rim_to_Grade, 
+Sewer_Use, Direction, Height, Flow_Control, Width, Shape, Material, Lining_Method, Pipe_Joint_Length, Total_Length, 
+Length_Surveyed, Year_Laid, Year_Renewed, Media_Label, Purpose, Sewer_Category, Pre_Cleaning, Date_Cleaned, Weather, 
+Location_Code, Additional_Info, Reverse_Setup, Sheet_Number, IsImperial, PressureValue, WorkOrder, Project, Northing, 
+Easting, Elevation, Coordinate_System, GPS_Accuracy
+from db.inspections;
+
+
+
+
+insert into pacp_schema.conditions (ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, Value_1st_Dimension, 
+Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time)
+
+Select ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, Value_1st_Dimension, 
+Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time
+from db.conditions;
+
+
+
+
+insert into pacp_schema.code_substitutions ( Code, Substitute_Code, Instructions)
+
+Select Code, Substitute_Code, Instructions 
+from db.code_substitutions;
+
+
+
+
+
+insert into pacp_schema.lacp_conditions( ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, 
+Value_1st_Dimension, Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time)
+
+Select ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, 
+Value_1st_Dimension, Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time 
+from db.lacp_conditions;
+
+
+
+
+
+
+insert into pacp_schema.lacp_inspections (InspectionID, PACPInspectionID, 
+Surveyed_By, Certificate_Number, Owner, Customer, Drainage_Area ,PO_Number ,Pipe_Segment_Reference,
+Lateral_Segment_Reference ,Date ,Time, Street , City, Location_Details, Upstream_MH, Downstream_MH, Sewer_Use,
+Direction, Size, Material, Lining_Method,Length_Surveyed, Media_Label, Purpose, Pre_Cleaning,
+Date_Cleaned, Weather, Location_Code, Year_Laid, Additional_Info, Sheet_Number, Property_Line, Clean_Out,
+ Clean_Out_Rim_Invert, Tap_Location, Building_Address, IsImperial, Reverse_Setup, PressureValue, WorkOrder, 
+Project, Northing, Easting, Elevation, Coordinate_System, GPS_Accuracy, Total_Length, StartManhole)
+
+Select InspectionID, PACPInspectionID, 
+Surveyed_By, Certificate_Number, Owner, Customer, Drainage_Area ,PO_Number ,Pipe_Segment_Reference,
+Lateral_Segment_Reference ,Date ,Time, Street , City, Location_Details, Upstream_MH, Downstream_MH, Sewer_Use,
+Direction, Size, Material, Lining_Method,Length_Surveyed, Media_Label, Purpose, Pre_Cleaning,
+Date_Cleaned, Weather, Location_Code, Year_Laid, Additional_Info, Sheet_Number, Property_Line, Clean_Out,
+ Clean_Out_Rim_Invert, Tap_Location, Building_Address, IsImperial, Reverse_Setup, PressureValue, WorkOrder, 
+Project, Northing, Easting, Elevation, Coordinate_System, GPS_Accuracy, Total_Length, StartManhole
+from db.lacp_conditions;
+
+
+
+
+
+
+insert into pacp_schema.custom_fields (CustomID ,InspectionID,Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five,
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten)
+
+Select CustomID ,InspectionID , Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five, 
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten
+from db.custom_fields;
+
+
+
+insert into pacp_schema.custom_labels (Field_Name, Label  ,Description)
+
+Select Field_Name, Label  ,Description
+from db.custom_labels;
+
+
+
+
+insert into pacp_schema.lacp_custom_labels (Field_Name,Label  ,Description)
+
+Select Field_Name,Label  ,Description
+from db.lacp_custom_labels;
+
+
+insert into pacp_schema.lacp_custom_fields (CustomID ,InspectionID,Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five,
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten)
+
+Select CustomID ,InspectionID , Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five, 
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten
+from db.lacp_custom_fields;
+
+
+insert into pacp_schema.lacp_media_conditions (MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path)
+
+Select MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path 
+from db.lacp_media_conditions;
+
+
+
+insert into pacp_schema.lacp_media_inspections (MediaID  ,InspectionID ,Video_Name  ,Video_Location)
+
+Select MediaID  ,InspectionID ,Video_Name  ,Video_Location
+from db.lacp_media_inspections;
+
+
+
+
+insert into pacp_schema.media_conditions (MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path)
+
+Select MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path 
+from db.media_conditions;
+
+
+insert into pacp_schema.media_inspections (MediaID  ,InspectionID ,Video_Name  ,Video_Location)
+
+Select MediaID  ,InspectionID ,Video_Name  ,Video_Location
+from db.media_inspections;
+
+
+
+insert into pacp_schema.pacp_version (Version ,Date ,Notes,
+SoftwareVendor ,SoftwareProgram,SoftwareVersionNumber)
+
+Select Version ,Date ,Notes,
+SoftwareVendor ,SoftwareProgram,SoftwareVersionNumber
+from db.pacp_version;
+
+
+
+
+
+insert into pacp_schema.valid_accuracyofgps (Value ,Abbreviation)
+
+Select Value ,Abbreviation
+from db.valid_accuracyofgps;
+
+
+
+
+insert into pacp_schema.valid_codes (Code, Description)
+
+Select Code, Description
+from db.valid_codes;
+
+
+insert into pacp_schema.valid_flow_controls(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_flow_controls;
+
+
+
+insert into pacp_schema.valid_lacp_codes (Code, Description)
+
+Select Code, Description
+from db.valid_lacp_codes;
+
+
+
+
+insert into pacp_schema.valid_lacp_lining_methods(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lacp_lining_methods;
+
+
+
+
+insert into pacp_schema.valid_lacp_locations(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lacp_locations;
+
+
+insert into pacp_schema.valid_lacp_materials(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lacp_materials;
+
+
+
+
+insert into pacp_schema.valid_lining_methods(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lining_methods;
+
+
+
+
+insert into pacp_schema.valid_locations(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_locations;
+
+
+insert into pacp_schema.valid_materials(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_materials;
+
+
+
+insert into pacp_schema.valid_pre_cleaning(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_pre_cleaning;
+
+
+
+insert into pacp_schema.valid_purposes(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_purposes;
+
+
+
+insert into pacp_schema.valid_sewer_uses(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_sewer_uses;
+
+
+
+
+insert into pacp_schema.valid_shapes(Value,Abbreviation,Description)
+
+Select Value,Abbreviation,Description
+from db.valid_shapes;
+
+
+
+insert into pacp_schema.valid_start_manhole(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_start_manhole;
+
+
+
+
+insert into pacp_schema.valid_survey_directions(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_survey_directions;
+
+
+
+
+insert into pacp_schema.valid_weather(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_weather;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

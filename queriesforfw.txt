@@ -1,0 +1,1173 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+
+
+-- -----------------------------------------------------
+-- Schema fortwayneschema
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `fortwayneschema` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `db` ;
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`code_substitutions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`code_substitutions` (
+  `Code` VARCHAR(10) NOT NULL,
+  `Type` VARCHAR(255) NULL DEFAULT NULL,
+  `Substitute_Code` VARCHAR(10) NOT NULL,
+  `Instructions` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`Code`),
+  UNIQUE INDEX `Code` (`Code` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+insert into fortwayneschema.code_substitutions ( Code, Substitute_Code, Instructions)
+
+Select Code, Substitute_Code, Instructions 
+from db.code_substitutions;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`conditions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`conditions` (
+  `ConditionID` INT(11) NOT NULL AUTO_INCREMENT,
+  `InspectionID` INT(11) NULL DEFAULT '0',
+  `Distance` FLOAT NOT NULL,
+  `Counter` FLOAT NULL DEFAULT NULL,
+  `PACP_Code` VARCHAR(5) NOT NULL,
+  `Continuous` VARCHAR(3) NULL DEFAULT NULL,
+  `Value_1st_Dimension` FLOAT NULL DEFAULT NULL,
+  `Value_2nd_Dimension` FLOAT NULL DEFAULT NULL,
+  `Value_Percent` INT(11) NULL DEFAULT NULL,
+  `Joint` TINYINT(1) NULL DEFAULT NULL,
+  `Clock_At_From` INT(11) NULL DEFAULT NULL,
+  `Clock_To` INT(11) NULL DEFAULT NULL,
+  `Remarks` VARCHAR(255) NULL DEFAULT NULL,
+  `VCR_Time` VARCHAR(6) NULL DEFAULT NULL,
+  PRIMARY KEY (`ConditionID`),
+  INDEX `ConditionID` (`ConditionID` ASC),
+  INDEX `InspectionID` (`InspectionID` ASC),
+  INDEX `PACP_Code` (`PACP_Code` ASC))
+ENGINE = InnoDB
+AUTO_INCREMENT = 84786
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.conditions (ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, Value_1st_Dimension, 
+Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time)
+
+Select ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, Value_1st_Dimension, 
+Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time
+from db.conditions;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`custom_fields`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`custom_fields` (
+  `CustomID` INT(11) NOT NULL AUTO_INCREMENT,
+  `InspectionID` INT(11) NULL DEFAULT '0',
+  `Custom_Field_One` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Two` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Three` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Four` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Five` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Six` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Seven` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Eight` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Nine` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Ten` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`CustomID`),
+  UNIQUE INDEX `InspectionID` (`InspectionID` ASC) ,
+  INDEX `CustomID` (`CustomID` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+insert into fortwayneschema.custom_fields (CustomID ,InspectionID,Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five,
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten)
+
+Select CustomID ,InspectionID , Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five, 
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten
+from db.custom_fields;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`custom_labels`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`custom_labels` (
+  `Field_Name` VARCHAR(18) NOT NULL,
+  `Label` VARCHAR(255) NULL DEFAULT NULL,
+  `Description` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`Field_Name`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+insert into fortwayneschema.custom_labels (Field_Name, Label  ,Description)
+
+Select Field_Name, Label  ,Description
+from db.custom_labels;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_sewer_uses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_sewer_uses` (
+  `Value` VARCHAR(12) NOT NULL,
+  `Abbreviation` VARCHAR(2) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_sewer_uses_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`inspections` (`Sewer_Use`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+insert into fortwayneschema.valid_sewer_uses(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_sewer_uses;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_pre_cleaning`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_pre_cleaning` (
+  `Value` VARCHAR(24) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_pre_cleaning_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`inspections` (`Pre_Cleaning`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_pre_cleaning(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_pre_cleaning;
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`lacp_media_inspections`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`lacp_media_inspections` (
+  `MediaID` INT(11) NOT NULL AUTO_INCREMENT,
+  `InspectionID` INT(11) NOT NULL DEFAULT '0',
+  `Video_Name` VARCHAR(255) NOT NULL,
+  `Video_Location` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`MediaID`),
+  INDEX `InspectionID` (`InspectionID` ASC),
+  INDEX `MediaID` (`MediaID` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+insert into fortwayneschema.lacp_media_inspections (MediaID  ,InspectionID ,Video_Name  ,Video_Location)
+
+Select MediaID  ,InspectionID ,Video_Name  ,Video_Location
+from db.lacp_media_inspections;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_accuracyofgps`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_accuracyofgps` (
+  `Value` VARCHAR(50) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  UNIQUE INDEX `Abbreviation` (`Abbreviation` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+insert into fortwayneschema.valid_accuracyofgps (Value ,Abbreviation)
+
+Select Value ,Abbreviation
+from db.valid_accuracyofgps;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`lacp_inspections`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`lacp_inspections` (
+  `InspectionID` INT(11) NOT NULL AUTO_INCREMENT,
+  `PACPInspectionID` INT(11) NULL DEFAULT '0',
+  `Surveyed_By` VARCHAR(25) NOT NULL,
+  `Certificate_Number` VARCHAR(15) NOT NULL,
+  `Owner` VARCHAR(30) NULL DEFAULT NULL,
+  `Customer` VARCHAR(30) NULL DEFAULT NULL,
+  `Drainage_Area` VARCHAR(15) NULL DEFAULT NULL,
+  `PO_Number` VARCHAR(15) NULL DEFAULT NULL,
+  `Pipe_Segment_Reference` VARCHAR(25) NULL DEFAULT NULL,
+  `Lateral_Segment_Reference` VARCHAR(35) NOT NULL,
+  `Date` DATE NOT NULL,
+  `Time` TIME NULL DEFAULT NULL,
+  `Street` VARCHAR(64) NOT NULL,
+  `City` VARCHAR(64) NOT NULL,
+  `Location_Details` VARCHAR(255) NULL DEFAULT NULL,
+  `Upstream_MH` VARCHAR(25) NULL DEFAULT NULL,
+  `Downstream_MH` VARCHAR(25) NULL DEFAULT NULL,
+  `Sewer_Use` VARCHAR(15) NULL DEFAULT NULL,
+  `Direction` VARCHAR(10) NOT NULL,
+  `Size` INT(11) NOT NULL,
+  `Material` VARCHAR(64) NOT NULL,
+  `Lining_Method` VARCHAR(30) NULL DEFAULT NULL,
+  `Length_Surveyed` FLOAT NULL DEFAULT NULL,
+  `Media_Label` VARCHAR(64) NULL DEFAULT NULL,
+  `Purpose` VARCHAR(64) NULL DEFAULT NULL,
+  `Pre_Cleaning` VARCHAR(15) NULL DEFAULT NULL,
+  `Date_Cleaned` DATETIME NULL DEFAULT NULL,
+  `Weather` VARCHAR(12) NULL DEFAULT NULL,
+  `Location_Code` VARCHAR(30) NULL DEFAULT NULL,
+  `Year_Laid` INT(11) NULL DEFAULT NULL,
+  `Additional_Info` VARCHAR(255) NULL DEFAULT NULL,
+  `Sheet_Number` INT(11) NULL DEFAULT '0',
+  `Property_Line` FLOAT NULL DEFAULT '0',
+  `Clean_Out` VARCHAR(37) NULL DEFAULT NULL,
+  `Clean_Out_Rim_Invert` FLOAT NULL DEFAULT '0',
+  `Tap_Location` FLOAT NULL DEFAULT '0',
+  `Building_Address` VARCHAR(10) NULL DEFAULT NULL,
+  `IsImperial` TINYINT(1) NULL DEFAULT '1',
+  `Reverse_Setup` INT(11) NULL DEFAULT '0',
+  `PressureValue` FLOAT NULL DEFAULT '0',
+  `WorkOrder` VARCHAR(20) NULL DEFAULT NULL,
+  `Project` VARCHAR(64) NULL DEFAULT NULL,
+  `Northing` VARCHAR(50) NULL DEFAULT NULL,
+  `Easting` VARCHAR(50) NULL DEFAULT NULL,
+  `Elevation` VARCHAR(50) NULL DEFAULT NULL,
+  `Coordinate_System` VARCHAR(50) NULL DEFAULT NULL,
+  `GPS_Accuracy` VARCHAR(50) NULL DEFAULT NULL,
+  `Total_Length` FLOAT NULL DEFAULT '0',
+  `StartManhole` VARCHAR(50) NULL DEFAULT NULL,
+  `lacp_inspections_InspectionID` INT(11) NOT NULL,
+  PRIMARY KEY (`InspectionID`),
+  INDEX `InspectionID` (`InspectionID` ASC),
+  INDEX `Location_Code` (`Location_Code` ASC),
+  INDEX `PACPInspectionID` (`PACPInspectionID` ASC),
+  INDEX `fk_lacp_inspections_valid_sewer_uses1_idx` (`Sewer_Use` ASC) ,
+  INDEX `fk_lacp_inspections_valid_pre_cleaning1_idx` (`Date_Cleaned` ASC) ,
+  INDEX `fk_lacp_inspections_lacp_inspections1_idx` (`lacp_inspections_InspectionID` ASC),
+  INDEX `fk_lacp_inspections_valid_accuracyofgps1_idx` (`GPS_Accuracy` ASC) ,
+  CONSTRAINT `fk_lacp_inspections_valid_sewer_uses1`
+    FOREIGN KEY (`Sewer_Use`)
+    REFERENCES `fortwayneschema`.`valid_sewer_uses` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lacp_inspections_valid_pre_cleaning1`
+    FOREIGN KEY (`Date_Cleaned`)
+    REFERENCES `fortwayneschema`.`valid_pre_cleaning` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lacp_inspections_lacp_media_inspections1`
+    FOREIGN KEY (`InspectionID`)
+    REFERENCES `fortwayneschema`.`lacp_media_inspections` (`InspectionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lacp_inspections_lacp_inspections1`
+    FOREIGN KEY (`lacp_inspections_InspectionID`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`InspectionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lacp_inspections_valid_accuracyofgps1`
+    FOREIGN KEY (`GPS_Accuracy`)
+    REFERENCES `fortwayneschema`.`valid_accuracyofgps` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.lacp_inspections (InspectionID, PACPInspectionID, 
+Surveyed_By, Certificate_Number, Owner, Customer, Drainage_Area ,PO_Number ,Pipe_Segment_Reference,
+Lateral_Segment_Reference ,Date ,Time, Street , City, Location_Details, Upstream_MH, Downstream_MH, Sewer_Use,
+Direction, Size, Material, Lining_Method,Length_Surveyed, Media_Label, Purpose, Pre_Cleaning,
+Date_Cleaned, Weather, Location_Code, Year_Laid, Additional_Info, Sheet_Number, Property_Line, Clean_Out,
+ Clean_Out_Rim_Invert, Tap_Location, Building_Address, IsImperial, Reverse_Setup, PressureValue, WorkOrder, 
+Project, Northing, Easting, Elevation, Coordinate_System, GPS_Accuracy, Total_Length, StartManhole)
+
+Select InspectionID, PACPInspectionID, 
+Surveyed_By, Certificate_Number, Owner, Customer, Drainage_Area ,PO_Number ,Pipe_Segment_Reference,
+Lateral_Segment_Reference ,Date ,Time, Street , City, Location_Details, Upstream_MH, Downstream_MH, Sewer_Use,
+Direction, Size, Material, Lining_Method,Length_Surveyed, Media_Label, Purpose, Pre_Cleaning,
+Date_Cleaned, Weather, Location_Code, Year_Laid, Additional_Info, Sheet_Number, Property_Line, Clean_Out,
+ Clean_Out_Rim_Invert, Tap_Location, Building_Address, IsImperial, Reverse_Setup, PressureValue, WorkOrder, 
+Project, Northing, Easting, Elevation, Coordinate_System, GPS_Accuracy, Total_Length, StartManhole
+from db.lacp_conditions;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_survey_directions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_survey_directions` (
+  `Value` VARCHAR(12) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_survey_directions_lacp_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`Direction`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_survey_directions(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_survey_directions;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_shapes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_shapes` (
+  `Value` VARCHAR(24) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  `Description` VARCHAR(24) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_shapes(Value,Abbreviation,Description)
+
+Select Value,Abbreviation,Description
+from db.valid_shapes;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_purposes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_purposes` (
+  `Value` VARCHAR(50) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_purposes_lacp_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`Purpose`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+insert into fortwayneschema.valid_purposes(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_purposes;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_locations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_locations` (
+  `Value` VARCHAR(50) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+insert into fortwayneschema.valid_locations(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_locations;
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`inspections`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`inspections` (
+  `InspectionID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Surveyed_By` VARCHAR(25) NOT NULL,
+  `Certificate_Number` VARCHAR(15) NOT NULL,
+  `Owner` VARCHAR(30) NULL DEFAULT NULL,
+  `Customer` VARCHAR(30) NULL DEFAULT NULL,
+  `Drainage_Area` VARCHAR(15) NULL DEFAULT NULL,
+  `PO_Number` VARCHAR(15) NULL DEFAULT NULL,
+  `Pipe_Segment_Reference` VARCHAR(25) NULL DEFAULT NULL,
+  `Date` DATE NOT NULL,
+  `Time` TIME NULL DEFAULT NULL,
+  `Street` VARCHAR(64) NOT NULL,
+  `City` VARCHAR(64) NOT NULL,
+  `Location_Details` VARCHAR(255) NULL DEFAULT NULL,
+  `Upstream_MH` VARCHAR(25) NOT NULL,
+  `Up_Rim_to_Invert` FLOAT NULL DEFAULT NULL,
+  `Up_Grade_to_Invert` FLOAT NULL DEFAULT NULL,
+  `Up_Rim_to_Grade` FLOAT NULL DEFAULT NULL,
+  `Downstream_MH` VARCHAR(25) NOT NULL,
+  `Down_Rim_to_Invert` FLOAT NULL DEFAULT NULL,
+  `Down_Grade_to_Invert` FLOAT NULL DEFAULT NULL,
+  `Down_Rim_to_Grade` FLOAT NULL DEFAULT NULL,
+  `Sewer_Use` VARCHAR(15) NULL DEFAULT NULL,
+  `Direction` VARCHAR(10) NOT NULL,
+  `Flow_Control` VARCHAR(25) NULL DEFAULT NULL,
+  `Height` INT(11) NOT NULL,
+  `Width` INT(11) NULL DEFAULT NULL,
+  `Shape` VARCHAR(15) NOT NULL,
+  `Material` VARCHAR(64) NOT NULL,
+  `Lining_Method` VARCHAR(30) NULL DEFAULT NULL,
+  `Pipe_Joint_Length` FLOAT NULL DEFAULT NULL,
+  `Total_Length` FLOAT NULL DEFAULT NULL,
+  `Length_Surveyed` FLOAT NULL DEFAULT NULL,
+  `Year_Laid` INT(11) NULL DEFAULT NULL,
+  `Year_Renewed` INT(11) NULL DEFAULT NULL,
+  `Media_Label` VARCHAR(64) NULL DEFAULT NULL,
+  `Purpose` VARCHAR(64) NULL DEFAULT NULL,
+  `Sewer_Category` VARCHAR(2) NULL DEFAULT NULL,
+  `Pre_Cleaning` VARCHAR(15) NOT NULL,
+  `Date_Cleaned` DATETIME NULL DEFAULT NULL,
+  `Weather` VARCHAR(12) NULL DEFAULT NULL,
+  `Location_Code` VARCHAR(30) NULL DEFAULT NULL,
+  `Additional_Info` VARCHAR(255) NULL DEFAULT NULL,
+  `Reverse_Setup` INT(11) NULL DEFAULT '0',
+  `Sheet_Number` INT(11) NULL DEFAULT '0',
+  `IsImperial` TINYINT(1) NULL DEFAULT '1',
+  `PressureValue` FLOAT NULL DEFAULT '0',
+  `WorkOrder` VARCHAR(20) NULL DEFAULT NULL,
+  `Project` VARCHAR(64) NULL DEFAULT NULL,
+  `Northing` VARCHAR(50) NULL DEFAULT NULL,
+  `Easting` VARCHAR(50) NULL DEFAULT NULL,
+  `Elevation` VARCHAR(50) NULL DEFAULT NULL,
+  `Coordinate_System` VARCHAR(50) NULL DEFAULT NULL,
+  `GPS_Accuracy` VARCHAR(50) NULL DEFAULT NULL,
+  PRIMARY KEY (`InspectionID`),
+  INDEX `InspectionID` (`InspectionID` ASC) ,
+  INDEX `Location_Code` (`Location_Code` ASC) ,
+  INDEX `fk_inspections_valid_survey_directions1_idx` (`Direction` ASC) ,
+  INDEX `fk_inspections_valid_shapes1_idx` (`Shape` ASC) ,
+  INDEX `fk_inspections_valid_purposes1_idx` (`Purpose` ASC),
+  INDEX `fk_inspections_valid_accuracyofgps1_idx` (`GPS_Accuracy` ASC),
+  CONSTRAINT `fk_inspections_conditions`
+    FOREIGN KEY (`InspectionID`)
+    REFERENCES `fortwayneschema`.`conditions` (`InspectionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inspections_custom_fields1`
+    FOREIGN KEY (`InspectionID`)
+    REFERENCES `fortwayneschema`.`custom_fields` (`InspectionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inspections_valid_survey_directions1`
+    FOREIGN KEY (`Direction`)
+    REFERENCES `fortwayneschema`.`valid_survey_directions` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inspections_valid_shapes1`
+    FOREIGN KEY (`Shape`)
+    REFERENCES `fortwayneschema`.`valid_shapes` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inspections_valid_purposes1`
+    FOREIGN KEY (`Purpose`)
+    REFERENCES `fortwayneschema`.`valid_purposes` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inspections_valid_accuracyofgps1`
+    FOREIGN KEY (`GPS_Accuracy`)
+    REFERENCES `fortwayneschema`.`valid_accuracyofgps` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inspections_valid_locations1`
+    FOREIGN KEY (`Location_Code`)
+    REFERENCES `fortwayneschema`.`valid_locations` (`Value`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5233
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.inspections (InspectionID, Surveyed_By,Certificate_Number,Owner, Customer, Drainage_Area, PO_Number, 
+Pipe_Segment_Reference, Date, Time, Street, City, Location_Details, Upstream_MH, Up_Rim_to_Invert, 
+Up_Grade_to_Invert, Up_Rim_to_Grade, Downstream_MH, Down_Rim_to_Invert, Down_Grade_to_Invert, Down_Rim_to_Grade, 
+Sewer_Use, Direction, Height, Flow_Control, Width, Shape, Material, Lining_Method, Pipe_Joint_Length, Total_Length, 
+Length_Surveyed, Year_Laid, Year_Renewed, Media_Label, Purpose, Sewer_Category,Pre_Cleaning, Date_Cleaned, Weather, 
+Location_Code, Additional_Info, Reverse_Setup, Sheet_Number, IsImperial, PressureValue, WorkOrder, Project, Northing, 
+Easting, Elevation, Coordinate_System, GPS_Accuracy)
+
+Select InspectionID, Surveyed_By, Certificate_Number, Owner, Customer, Drainage_Area, PO_Number, 
+Pipe_Segment_Reference, Date, Time, Street, City, Location_Details, Upstream_MH, Up_Rim_to_Invert, 
+Up_Grade_to_Invert, Up_Rim_to_Grade, Downstream_MH, Down_Rim_to_Invert, Down_Grade_to_Invert, Down_Rim_to_Grade, 
+Sewer_Use, Direction, Height, Flow_Control, Width, Shape, Material, Lining_Method, Pipe_Joint_Length, Total_Length, 
+Length_Surveyed, Year_Laid, Year_Renewed, Media_Label, Purpose, Sewer_Category, Pre_Cleaning, Date_Cleaned, Weather, 
+Location_Code, Additional_Info, Reverse_Setup, Sheet_Number, IsImperial, PressureValue, WorkOrder, Project, Northing, 
+Easting, Elevation, Coordinate_System, GPS_Accuracy
+from db.inspections;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_lacp_codes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_lacp_codes` (
+  `Code` VARCHAR(50) NOT NULL,
+  `Description` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`Code`),
+  INDEX `Code` (`Code` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_lacp_codes (Code, Description)
+
+Select Code, Description
+from db.valid_lacp_codes;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`lacp_media_conditions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`lacp_media_conditions` (
+  `MediaCondID` INT(11) NOT NULL AUTO_INCREMENT,
+  `ConditionID` INT(11) NULL DEFAULT '0',
+  `Image_Reference` VARCHAR(255) NULL DEFAULT NULL,
+  `Image_Path` VARCHAR(255) NULL DEFAULT NULL,
+  `Video_File` VARCHAR(255) NULL DEFAULT NULL,
+  `Video_File_Path` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`MediaCondID`),
+  INDEX `ConditionID` (`ConditionID` ASC),
+  INDEX `MediaCondID` (`MediaCondID` ASC) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+insert into fortwayneschema.lacp_media_conditions (MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path)
+
+Select MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path 
+from db.lacp_media_conditions;
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`lacp_conditions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`lacp_conditions` (
+  `ConditionID` INT(11) NOT NULL AUTO_INCREMENT,
+  `InspectionID` INT(11) NOT NULL DEFAULT '0',
+  `Distance` FLOAT NOT NULL,
+  `Counter` FLOAT NULL DEFAULT NULL,
+  `PACP_Code` VARCHAR(6) NOT NULL,
+  `Continuous` VARCHAR(3) NULL DEFAULT NULL,
+  `Value_1st_Dimension` FLOAT NULL DEFAULT NULL,
+  `Value_2nd_Dimension` FLOAT NULL DEFAULT NULL,
+  `Value_Percent` INT(11) NULL DEFAULT NULL,
+  `Joint` TINYINT(1) NULL DEFAULT NULL,
+  `Clock_At_From` INT(11) NULL DEFAULT NULL,
+  `Clock_To` INT(11) NULL DEFAULT NULL,
+  `Remarks` VARCHAR(255) NULL DEFAULT NULL,
+  `VCR_Time` VARCHAR(6) NULL DEFAULT NULL,
+  PRIMARY KEY (`ConditionID`),
+  INDEX `ConditionID` (`ConditionID` ASC) ,
+  INDEX `InspectionID` (`InspectionID` ASC),
+  INDEX `PACP_Code` (`PACP_Code` ASC) ,
+  CONSTRAINT `fk_lacp_conditions_valid_lacp_codes1`
+    FOREIGN KEY (`PACP_Code`)
+    REFERENCES `fortwayneschema`.`valid_lacp_codes` (`Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_lacp_conditions_lacp_media_conditions1`
+    FOREIGN KEY (`ConditionID`)
+    REFERENCES `fortwayneschema`.`lacp_media_conditions` (`ConditionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.lacp_conditions( ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, 
+Value_1st_Dimension, Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time)
+
+Select ConditionID, InspectionID, Distance, Counter, PACP_Code, Continuous, 
+Value_1st_Dimension, Value_2nd_Dimension, Value_Percent, Joint, Clock_At_From, Clock_To, Remarks, VCR_Time 
+from db.lacp_conditions;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`lacp_custom_fields`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`lacp_custom_fields` (
+  `CustomID` INT(11) NOT NULL AUTO_INCREMENT,
+  `InspectionID` INT(11) NULL DEFAULT '0',
+  `Custom_Field_One` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Two` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Three` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Four` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Five` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Six` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Seven` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Eight` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Nine` VARCHAR(255) NULL DEFAULT NULL,
+  `Custom_Field_Ten` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`CustomID`),
+  UNIQUE INDEX `InspectionID` (`InspectionID` ASC) ,
+  INDEX `CustomID` (`CustomID` ASC) ,
+  CONSTRAINT `fk_lacp_custom_fields_lacp_inspections1`
+    FOREIGN KEY (`InspectionID`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`InspectionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.lacp_custom_fields (CustomID ,InspectionID,Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five,
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten)
+
+Select CustomID ,InspectionID , Custom_Field_One ,Custom_Field_Two ,
+Custom_Field_Three,Custom_Field_Four ,Custom_Field_Five, 
+Custom_Field_Six ,Custom_Field_Seven,Custom_Field_Eight,Custom_Field_Nine ,Custom_Field_Ten
+from db.lacp_custom_fields;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`lacp_custom_labels`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`lacp_custom_labels` (
+  `Field_Name` VARCHAR(18) NOT NULL,
+  `Label` VARCHAR(255) NULL DEFAULT NULL,
+  `Description` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`Field_Name`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+insert into fortwayneschema.lacp_custom_labels (Field_Name,Label  ,Description)
+
+Select Field_Name,Label  ,Description
+from db.lacp_custom_labels;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`media_conditions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`media_conditions` (
+  `MediaCondID` INT(11) NOT NULL AUTO_INCREMENT,
+  `ConditionID` INT(11) NULL DEFAULT '0',
+  `Image_Reference` VARCHAR(255) NULL DEFAULT NULL,
+  `Image_Path` VARCHAR(255) NULL DEFAULT NULL,
+  `Video_File` VARCHAR(255) NULL DEFAULT NULL,
+  `Video_File_Path` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`MediaCondID`),
+  INDEX `ConditionID` (`ConditionID` ASC) ,
+  INDEX `MediaCondID` (`MediaCondID` ASC) ,
+  CONSTRAINT `fk_media_conditions_conditions1`
+    FOREIGN KEY (`ConditionID`)
+    REFERENCES `fortwayneschema`.`conditions` (`ConditionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 7072
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.media_conditions (MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path)
+
+Select MediaCondID ,ConditionID ,Image_Reference ,
+Image_Path  ,Video_File  ,Video_File_Path 
+from db.media_conditions;
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`media_inspections`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`media_inspections` (
+  `MediaID` INT(11) NOT NULL AUTO_INCREMENT,
+  `InspectionID` INT(11) NOT NULL DEFAULT '0',
+  `Video_Name` VARCHAR(255) NOT NULL,
+  `Video_Location` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`MediaID`),
+  INDEX `InspectionID` (`InspectionID` ASC) ,
+  INDEX `MediaID` (`MediaID` ASC) ,
+  CONSTRAINT `fk_media_inspections_inspections1`
+    FOREIGN KEY (`InspectionID`)
+    REFERENCES `fortwayneschema`.`inspections` (`InspectionID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 5233
+DEFAULT CHARACTER SET = utf8;
+
+
+
+insert into fortwayneschema.media_inspections (MediaID  ,InspectionID ,Video_Name  ,Video_Location)
+
+Select MediaID  ,InspectionID ,Video_Name  ,Video_Location
+from db.media_inspections;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`pacp_version`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`pacp_version` (
+  `Version` VARCHAR(50) NOT NULL,
+  `Date` DATE NULL DEFAULT NULL,
+  `Notes` LONGTEXT NULL DEFAULT NULL,
+  `SoftwareVendor` VARCHAR(25) NOT NULL,
+  `SoftwareProgram` VARCHAR(25) NOT NULL,
+  `SoftwareVersionNumber` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`Version`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+insert into fortwayneschema.pacp_version (Version ,Date ,Notes,
+SoftwareVendor ,SoftwareProgram,SoftwareVersionNumber)
+
+Select Version ,Date ,Notes,
+SoftwareVendor ,SoftwareProgram,SoftwareVersionNumber
+from db.pacp_version;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_codes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_codes` (
+  `Code` VARCHAR(50) NOT NULL,
+  `Description` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`Code`),
+  INDEX `Code` (`Code` ASC) ,
+  CONSTRAINT `fk_valid_codes_conditions1`
+    FOREIGN KEY (`Code`)
+    REFERENCES `fortwayneschema`.`conditions` (`PACP_Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.valid_codes (Code, Description)
+
+Select Code, Description
+from db.valid_codes;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_flow_controls`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_flow_controls` (
+  `Value` VARCHAR(24) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_flow_controls_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`inspections` (`Flow_Control`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+insert into fortwayneschema.valid_flow_controls(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_flow_controls;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_lacp_lining_methods`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_lacp_lining_methods` (
+  `Value` VARCHAR(36) NOT NULL,
+  `Abbreviation` VARCHAR(2) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_lacp_lining_methods_lacp_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`Lining_Method`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+insert into fortwayneschema.valid_lacp_lining_methods(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lacp_lining_methods;
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_lacp_locations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_lacp_locations` (
+  `Value` VARCHAR(50) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_lacp_locations_lacp_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`Location_Code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_lacp_locations(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lacp_locations;
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_lacp_materials`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_lacp_materials` (
+  `Value` VARCHAR(36) NOT NULL,
+  `Abbreviation` VARCHAR(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+insert into fortwayneschema.valid_lacp_materials(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lacp_materials;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_lining_methods`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_lining_methods` (
+  `Value` VARCHAR(36) NOT NULL,
+  `Abbreviation` VARCHAR(2) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_lining_methods_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`inspections` (`Lining_Method`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_lining_methods(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_lining_methods;
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_materials`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_materials` (
+  `Value` VARCHAR(36) NOT NULL,
+  `Abbreviation` VARCHAR(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_materials_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`inspections` (`Material`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+insert into fortwayneschema.valid_materials(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_materials;
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_start_manhole`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_start_manhole` (
+  `Value` VARCHAR(12) NOT NULL,
+  `Abbreviation` VARCHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_start_manhole_lacp_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`StartManhole`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+insert into fortwayneschema.valid_start_manhole(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_start_manhole;
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table `fortwayneschema`.`valid_weather`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fortwayneschema`.`valid_weather` (
+  `Value` VARCHAR(50) NOT NULL,
+  `Abbreviation` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
+  PRIMARY KEY (`Value`),
+  CONSTRAINT `fk_valid_weather_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`inspections` (`Weather`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_valid_weather_lacp_inspections1`
+    FOREIGN KEY (`Value`)
+    REFERENCES `fortwayneschema`.`lacp_inspections` (`Weather`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+
+
+
+
+
+
+insert into fortwayneschema.valid_weather(Value,Abbreviation)
+
+Select Value,Abbreviation
+from db.valid_weather;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

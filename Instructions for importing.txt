@@ -1,0 +1,8 @@
+Created a new database named as 'fortwayneschema'
+
+
+
+forward engineered the EER Diagram and changed the name in the tables as fortwayne.valid_codes, fortwayne.conditions etc
+ and inserted the insert code from the notepad 
+
+
